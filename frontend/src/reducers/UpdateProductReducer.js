@@ -1,5 +1,6 @@
+
 // eslint-disable-next-line no-unused-vars
-import { UPDATE_PRODUCT } from "../actions/types";
+import { UPDATE_PRODUCT } from '../constants/UpdateProductConstant'
 
 const initialState = {
   network: "",

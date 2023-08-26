@@ -2,15 +2,14 @@ import React, {useContext, useEffect, useState} from "react";
 import {Table,Modal,Button} from "react-bootstrap";
 import ProductsRow from './ProductsRow';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import {fetchSims} from "../actions/ProductAction";
 
 
 const ProductsTable = () => {
-    const updateProductInfo = useSelector(state=> state.updateProductInfo);
-
-    const sims = useSelector(state => state.sims);
     const dispatch = useDispatch();
+    const sims = useSelector(state => state.sims.sims);
+    const updateProductInfo = useSelector(state=> state.updateProductInfo);
 
     const [showModal, setShowModal] = useState(false);
 
@@ -50,7 +49,7 @@ const ProductsTable = () => {
     // }
 
     const handleUpdate = (id) =>{
-        const product = sims.data.filter(sim => sim.id === id)[0]
+        const product = sims.data.filter(sim => sim.id === id)[0];
         updateProductInfo({
             network: product.network,
             phone_number: product.phone_number,
@@ -64,7 +63,8 @@ const ProductsTable = () => {
 
     useEffect(() => {
         dispatch(fetchSims());
-    }, [dispatch]);
+    }, []);
+
 
     return(
         <div>
@@ -82,17 +82,17 @@ const ProductsTable = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {sims.data.map((sims, index) => (
+                {sims.data && sims.data.map((sim, index) => (
                     <ProductsRow
-                        key={sims.id}
-                        id={sims.id}
+                        key={sim.id}
+                        id={sim.id}
                         num ={index + 1}
-                        network = {sims.network}
-                        phone_number ={sims.phone_number}
-                        price = {sims.price}
-                        category = {sims.category}
-                        detail = {sims.detail}
-                        created_at = {sims.created_at}
+                        network = {sim.network}
+                        phone_number ={sim.phone_number}
+                        price = {sim.price}
+                        category = {sim.category}
+                        detail = {sim.detail}
+                        created_at = {sim.created_at}
                         // handleDelete={handleDelete}
                         // handleDestroyClick = {handleDestroyClick}
                         handleUpdate = { handleUpdate }
@@ -120,5 +120,5 @@ const ProductsTable = () => {
         </div>
     );
 }
-export default ProductsTable;
 
+export default ProductsTable;

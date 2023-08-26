@@ -1,4 +1,4 @@
-import react from "react";
+import React from "react";
 import { useLocation } from "react-router-dom";
 
 const ProductsRow = ({id, num, network, phone_number, price, category,detail, created_at,handleDeleteClick,handleUpdate,handleRestoreClick,handleDestroyClick }) =>{

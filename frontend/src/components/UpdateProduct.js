@@ -7,7 +7,7 @@ import updateProductReducer from "../reducers/UpdateProductReducer";
 
 const UpdateProduct = () => {
 
-	const updateProductInfo = useSelector((state)=> state.updateProductInfo);
+	const updateProductInfo = useSelector(state=> state.updateProductInfo);
 	const dispatch = useDispatch();
 	const updateForm = (e) => {
 		dispatch(updateProduct({[e.target.name]: e.target.value}))

@@ -1,21 +1,41 @@
-// eslint-disable-next-line no-unused-vars
-import { SET_SIMS } from "../actions/types";
+import {
+  FETCH_SIMS_REQUEST,
+  FETCH_SIMS_SUCCESS,
+  FETCH_SIMS_FAILURE}
+  from '../constants/ProductConstant';
+import {fetchSims} from "../actions/ProductAction";
+
 
 
 const initialState = {
-  sims: { "data": [] }
+  sims: [],
+  loading: false,
+  error: null,
 };
 
-const productReducer = (state = initialState, action) => {
+const simsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "SET_SIMS":
+    case FETCH_SIMS_REQUEST:
       return {
         ...state,
-        sims: action.payload
+        loading: true,
+        error: null,
+      };
+    case FETCH_SIMS_SUCCESS:
+      return {
+        ...state.sims,
+        loading: false,
+        sims: action.payload,
+      };
+    case FETCH_SIMS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
       };
     default:
       return state;
   }
 };
 
-export default productReducer;
+export default simsReducer;

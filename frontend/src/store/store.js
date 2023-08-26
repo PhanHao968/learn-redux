@@ -1,21 +1,11 @@
-// import { createStore, applyMiddleware } from "redux";
-// import thunk from "redux-thunk";
-//
-// import productReducer from "../reducers/ProductReducer";
-//
-// const store = createStore(productReducer, applyMiddleware(thunk));
-//
-// export default store;
-
-
 import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
-import productReducer from "../reducers/ProductReducer";
 import updateProductReducer from "../reducers/UpdateProductReducer";
+import simsReducer from "../reducers/ProductReducer";
 
 const store = configureStore({
   reducer: {
-    sims: productReducer,
+    sims: simsReducer,
     updateProductInfo: updateProductReducer
   },
   middleware: [thunk]

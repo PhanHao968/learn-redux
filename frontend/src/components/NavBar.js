@@ -1,4 +1,4 @@
-import react, {useContext, useState,useEffect} from "react"
+import React, {useContext, useState,useEffect} from "react"
 import { Navbar, Nav, Form, FormControl, Button, Badge } from 'react-bootstrap'
 import {Link, NavLink} from 'react-router-dom'
 import {useDispatch, useSelector} from "react-redux";
@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 
 const NavBar = () => {
 
-    // const [searchSim, setSearchSim] = useState("")
+    const [searchSim, setSearchSim] = useState("")
     const sims = useSelector(state => state.sims);
     const dispatch = useDispatch();
     // const [showFilteredResults, setShowFilteredResults] = useState(false);
@@ -20,12 +20,15 @@ const NavBar = () => {
     // const isTrashPage = location.pathname === "/trashsim";
     //
     useEffect(() => {
-        const inStockCount = sims.data.filter(sim => !sim.is_deleted).length;
-        setProductsInStockCount(inStockCount);
-        // if(isTrashPage){
-        //     const trashSimCount = sims.data.filter(sim => sim.is_deleted).length;
-        //     setTrashCount(trashSimCount);
-        // }
+        if(sims.data){
+            const inStockCount = sims.data.filter(sim => !sim.is_deleted).length;
+            setProductsInStockCount(inStockCount);
+            // if(isTrashPage){
+            //     const trashSimCount = sims.data.filter(sim => sim.is_deleted).length;
+            //     setTrashCount(trashSimCount);
+            // }
+        }
+
     }, [sims.data /*,isTrashPage*/]);
     //
     // const updateSearch = (e) => {
@@ -62,7 +65,7 @@ const NavBar = () => {
                     </Link>
                 </Nav>
 
-                <Form  inline className="d-flex justify-content-between align-items-center"> {/*onSubmit={filterSims}*/}
+                <Form className="d-flex justify-content-between align-items-center"> {/*onSubmit={filterSims}*/}
                     <Link to="/addproduct" className="btn btn-primary flex-grow-1" style={{ whiteSpace: "nowrap" }}>Add Product</Link>
                     <FormControl  type="text" placeholder="Search" className="mr-sm-2" style={{ marginLeft: "10px"}} /> {/*value= {searchSim} onChange={updateSearch}*/}
                     <Button type="submit"  variant="outline-primary" style={{ marginLeft: "10px"}} >Search</Button>
