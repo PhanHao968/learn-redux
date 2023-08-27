@@ -6,7 +6,7 @@ import simsReducer from "../reducers/ProductReducer";
 const store = configureStore({
   reducer: {
     sims: simsReducer,
-    updateProductInfo: updateProductReducer
+    updateProductInfo: updateProductReducer,
   },
   middleware: [thunk]
 });

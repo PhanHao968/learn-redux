@@ -1,29 +1,57 @@
 import React, {useEffect, useState} from "react";
 import {Table,Modal,Button} from "react-bootstrap";
 import ProductsRow from './ProductsRow';
-import { useNavigate } from 'react-router-dom';
-import {useSelector, useDispatch} from "react-redux";
-import {fetchSims} from "../actions/ProductAction";
-import {deleteProduct, updateProductSimInfo} from '../actions/UpdateProductAction';
+import {useDispatch, useSelector} from "react-redux";
+import {trashSims} from "../actions/ProductAction";
+import {deleteProduct} from "../actions/UpdateProductAction";
 
 
-const ProductsTable = () => {
+const TrashTable = () => {
     const dispatch = useDispatch();
-    const sims = useSelector(state => state.sims.sims);
+    const sims = useSelector(state => state.sims)
 
     const [showModal, setShowModal] = useState(false);
+
     const [productToDeleteId, setProductToDeleteId] = useState(null);
 
-    const handleDestroyClick = (id) => {
+    const handleDeleteClick = (id) => {
         setProductToDeleteId(id);
         setShowModal(true);
     };
 
-    let navigate = useNavigate()
+    const handleRestoreClick = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:8000/restore/${id}`, {
+                method: "PUT",
+                headers: {
+                    accept: 'application/json'
+                }
+            });
+            const result = await response.json();
+            if(result.status  === "Successfully"){
+                const restoredProduct = sims.data.find((sim) => sim.id === id);
+                restoredProduct.is_deleted = false;
+
+                sims({data: [...restoredProduct]});
+                alert("Product restored")
+
+            }else {
+                const errorData = await response.json();
+                console.error("Error restore product:", errorData);
+                alert("Product restore failed")
+            }
+
+        }catch (error){
+            console.error("Error restore product:",error);
+            console.log("Detailed error:", error);
+            alert("An error occurred while restore the product.");
+        }
+    }
+
     const handleDelete = async (id) => {
 
         try {
-            const response = await fetch(`http://localhost:8000/destroy/${id}`, {
+            const response = await fetch(`http://localhost:8000/product/${id}`, {
                 method: "DELETE",
                 headers: {
                     accept: 'application/json'
@@ -38,32 +66,17 @@ const ProductsTable = () => {
                 console.error("Error deleting product:", errorData);
                 alert("Product delete failed")
             }
+        }catch (error){
+            // console.error("Error deleting product:",error);
+            alert("An error occurred while deleting the product.");
+            setShowModal(false);
         }
-            catch (error){
-                console.error("Error deleting product:",error);
-                alert("An error occurred while deleting the product.");
-            }
-        }
-
-    const handleUpdate = (id) =>{
-        const product = sims.data.filter(sim => sim.id === id)[0];
-       if(product){
-            dispatch(updateProductSimInfo({
-            network: product.network,
-            phone_number: product.phone_number,
-            price: product.price,
-            category: product.category,
-            detail: product.detail,
-            simId: id
-        }));
-        navigate("/updateproduct")
-       }
     }
 
-    useEffect(() => {
-        dispatch(fetchSims());
-    }, []);
 
+    useEffect(()=>{
+        dispatch(trashSims())
+    },[])
 
     return(
         <div>
@@ -81,20 +94,19 @@ const ProductsTable = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {sims.data && sims.data.map((sim, index) => (
+                {sims.data && sims.data.map((sims, index) => (
                     <ProductsRow
-                        key={sim.id}
-                        id={sim.id}
+                        key={sims.id}
+                        id={sims.id}
                         num ={index + 1}
-                        network = {sim.network}
-                        phone_number ={sim.phone_number}
-                        price = {sim.price}
-                        category = {sim.category}
-                        detail = {sim.detail}
-                        created_at = {sim.created_at}
-                        // handleDelete={handleDelete}
-                        handleDestroyClick = {handleDestroyClick}
-                        handleUpdate = { handleUpdate }
+                        network = {sims.network}
+                        phone_number ={sims.phone_number}
+                        price = {sims.price}
+                        category = {sims.category}
+                        detail = {sims.detail}
+                        created_at = {sims.created_at}
+                        handleDeleteClick = {handleDeleteClick}
+                        handleRestoreClick={handleRestoreClick}
                     />
                 ))}
                 </tbody>
@@ -119,5 +131,5 @@ const ProductsTable = () => {
         </div>
     );
 }
+export default TrashTable;
 
-export default ProductsTable;

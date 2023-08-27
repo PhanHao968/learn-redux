@@ -1,8 +1,9 @@
 import {Button, Card, Form} from "react-bootstrap";
 import React, { useContext, useState} from 'react'
-import {updateProduct} from '../actions/UpdateProductAction'
 import {useDispatch, useSelector} from "react-redux";
+import { UPDATE_PRODUCT_INFO } from '../constants/UpdateProductConstant';
 import updateProductReducer from "../reducers/UpdateProductReducer";
+import {updateProductSimInfo} from "../actions/UpdateProductAction";
 
 
 const UpdateProduct = () => {
@@ -10,8 +11,9 @@ const UpdateProduct = () => {
 	const updateProductInfo = useSelector(state=> state.updateProductInfo);
 	const dispatch = useDispatch();
 	const updateForm = (e) => {
-		dispatch(updateProduct({[e.target.name]: e.target.value}))
-	}
+		const formData = {[e.target.name]: e.target.value};
+		dispatch(updateProductSimInfo(formData));
+	};
 
     const postData = async (e) => {
 
@@ -45,13 +47,13 @@ const UpdateProduct = () => {
                 alert("Failed to update product")
             }
         });
-        updateProductReducer({
+        dispatch(updateProductSimInfo({
             network: "",
             phone_number: "",
             price: "",
             category: "",
             detail: "",
-        });
+        }));
     }
 
     return(

@@ -3,8 +3,6 @@ import {
   FETCH_SIMS_SUCCESS,
   FETCH_SIMS_FAILURE}
   from '../constants/ProductConstant';
-import {fetchSims} from "../actions/ProductAction";
-
 
 
 const initialState = {

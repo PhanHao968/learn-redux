@@ -31,3 +31,16 @@ export const fetchSims = () => {
     }
   };
 };
+
+export const trashSims = () => {
+  return async (dispatch) => {
+    dispatch(fetchSimsRequest());
+    try {
+      const response = await fetch("http://127.0.0.1:8000/trashsim/");
+      const data = await response.json();
+      dispatch(fetchSimsSuccess(data));
+    } catch (error) {
+      dispatch(fetchSimsFailure(error));
+    }
+  };
+};

@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Link, NavLink,Routes } from "react-rout
 import ProductsTable from "./components/ProductTables";
 import AddProducts from "./components/AddProducts";
 import UpdateProduct from "./components/UpdateProduct";
+import TrashTables from "./components/TrashTables";
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
                               <Routes>
                                   <Route path="/" element={<ProductsTable/>} />
                                   <Route path="/addproduct" element={<AddProducts/>} />
+                                  <Route path="/trashsim" element={<TrashTables/>} />
                                   <Route path="/updateproduct" element={<UpdateProduct/>} />
                               </Routes>
                       </div>
