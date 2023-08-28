@@ -101,7 +101,9 @@ async def restore_sim(id: str):
 
 @sim_api_router.get("/search/")
 async def search_sim_by_prefix(prefix: str = Query(..., description="Phone number prefix")):
-    query = {"phone_number": {"$regex": f"^{prefix}"}}
+    query = {"phone_number": {"$regex": f"^{prefix}"},
+             "is_deleted": False
+             }
     result = collection_name.find(query)
 
     phone_numbers = [sim_serializer(sim) for sim in result]

@@ -3,13 +3,14 @@ import {Table,Modal,Button} from "react-bootstrap";
 import ProductsRow from './ProductsRow';
 import { useNavigate } from 'react-router-dom';
 import {useSelector, useDispatch} from "react-redux";
-import {fetchSims} from "../actions/ProductAction";
+import {fetchSims, fetchSimsSuccess} from "../actions/ProductAction";
 import {deleteProduct, updateProductSimInfo} from '../actions/UpdateProductAction';
 
 
 const ProductsTable = () => {
     const dispatch = useDispatch();
     const sims = useSelector(state => state.sims.sims);
+    const [showFilteredResults, setShowFilteredResults] = useState(false);
 
     const [showModal, setShowModal] = useState(false);
     const [productToDeleteId, setProductToDeleteId] = useState(null);
@@ -62,8 +63,10 @@ const ProductsTable = () => {
 
     useEffect(() => {
         dispatch(fetchSims());
-    }, []);
+    }, [dispatch]);
 
+    const searchResults = useSelector(state => state.sims.sims)
+    const filteredSims = searchResults.length > 0 ? searchResults : sims.data;
 
     return(
         <div>
@@ -81,7 +84,7 @@ const ProductsTable = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {sims.data && sims.data.map((sim, index) => (
+                {filteredSims && filteredSims.map((sim, index) => (
                     <ProductsRow
                         key={sim.id}
                         id={sim.id}

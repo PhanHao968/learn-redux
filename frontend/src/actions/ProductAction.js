@@ -1,9 +1,10 @@
 import {
   FETCH_SIMS_REQUEST,
   FETCH_SIMS_SUCCESS,
-  FETCH_SIMS_FAILURE}
+  FETCH_SIMS_FAILURE,
+  CLEAR_SEARCH_RESULTS,
+}
   from '../constants/ProductConstant';
-import data from "bootstrap/js/src/dom/data";
 
 export const fetchSimsRequest =()=>({
   type:FETCH_SIMS_REQUEST,
@@ -19,6 +20,11 @@ export const fetchSimsFailure = (error) => ({
   payload: error,
 });
 
+export const clearSearchResults = () => {
+    return {
+        type: CLEAR_SEARCH_RESULTS,
+    };
+};
 export const fetchSims = () => {
   return async (dispatch) => {
     dispatch(fetchSimsRequest());
