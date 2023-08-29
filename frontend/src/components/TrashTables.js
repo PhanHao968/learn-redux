@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Table,Modal,Button} from "react-bootstrap";
 import ProductsRow from './ProductsRow';
 import {useDispatch, useSelector} from "react-redux";
-import {trashSims} from "../actions/ProductAction";
+import {restoreSims, trashSims} from "../actions/ProductAction";
 import {deleteProduct} from "../actions/UpdateProductAction";
 
 
@@ -29,10 +29,11 @@ const TrashTable = () => {
             });
             const result = await response.json();
             if(result.status  === "Successfully"){
-                const restoredProduct = sims.data.find((sim) => sim.id === id);
-                restoredProduct.is_deleted = false;
+                // const restoredProduct = sims.data.find((sim) => sim.id === id);
+                // restoredProduct.is_deleted = false;
+                dispatch(restoreSims(id))
 
-                sims({data: [...restoredProduct]});
+                // sims({data: [...restoredProduct]});
                 alert("Product restored")
 
             }else {

@@ -3,6 +3,7 @@ import {
   FETCH_SIMS_SUCCESS,
   FETCH_SIMS_FAILURE,
   CLEAR_SEARCH_RESULTS,
+  RESTORE_SIMS,
 }
   from '../constants/ProductConstant';
 
@@ -25,6 +26,13 @@ export const clearSearchResults = () => {
         type: CLEAR_SEARCH_RESULTS,
     };
 };
+
+export const restoreSims = () => {
+    return {
+        type: RESTORE_SIMS,
+    };
+};
+
 export const fetchSims = () => {
   return async (dispatch) => {
     dispatch(fetchSimsRequest());
